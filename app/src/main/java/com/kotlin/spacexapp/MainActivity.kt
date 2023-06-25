@@ -16,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.kotlin.spacexapp.ui.theme.SpaceXAppTheme
 import kotlinx.coroutines.launch
 
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SpaceXAppTheme {
+                val navController = rememberNavController()
                 val scaffoldState = rememberScaffoldState()
                 val scope = rememberCoroutineScope()
                 Scaffold(
@@ -42,19 +44,19 @@ class MainActivity : ComponentActivity() {
                         DrawerBody(
                             items = listOf(
                                 MenuItem(
-                                    id = "Rockets",
+                                    id = "rockets",
                                     title = "Rocket Info",
                                     icon = Icons.Default.Rocket,
                                     contentDescription = " Go to rocket screen"
                                 ),
                                 MenuItem(
-                                    id = "Past launches",
+                                    id = "past_launches",
                                     title = "Past launches",
                                     icon = Icons.Default.RocketLaunch,
                                     contentDescription = "Go to past launches"
                                 ),
                                 MenuItem(
-                                    id = "Upcoming launches",
+                                    id = "upcoming_launches",
                                     title = "Upcoming launches",
                                     icon = Icons.Default.RocketLaunch,
                                     contentDescription = "Go to upcoming launches"
@@ -68,7 +70,15 @@ class MainActivity : ComponentActivity() {
 
                             ),
                             onItemClick = {
-                                println("Clicked on ${it.title}")
+                                when (it.id) {
+                                    "rockets" -> navController.navigate(Screen.RocketsScreen.route)
+                                    "upcoming_launches" -> navController.navigate(Screen.UpcomingLaunchesScreen.route)
+                                    "past_launches" -> navController.navigate(Screen.PastLaunchesScreen.route)
+                                    "info" -> navController.navigate(Screen.CompanyInfoScreen.route)
+                                }
+                                scope.launch {
+                                    scaffoldState.drawerState.close()
+                                }
                             }
                         )
                     },
@@ -78,7 +88,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(1.dp)
                                 .fillMaxSize()
                         ) {
-                            Navigation()
+                            Navigation(navController)
                         }
 
                     }
