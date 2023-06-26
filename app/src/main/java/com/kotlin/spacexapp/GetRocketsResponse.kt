@@ -51,14 +51,14 @@ data class Rocket(
     val type: String? = "",
     @Json(name = "wikipedia")
     val wikipedia: String? = ""
-) {
+) : Serializable {
     @JsonClass(generateAdapter = true)
     data class Diameter(
         @Json(name = "feet")
         val feet: Double? = 0.0,
         @Json(name = "meters")
         val meters: Double? = 0.0
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class Engines(
@@ -84,14 +84,14 @@ data class Rocket(
         val type: String? = "",
         @Json(name = "version")
         val version: String? = ""
-    ) {
+    ) : Serializable {
         @JsonClass(generateAdapter = true)
         data class Isp(
             @Json(name = "sea_level")
             val seaLevel: Double? = 0.0,
             @Json(name = "vacuum")
             val vacuum: Double? = 0.0
-        )
+        ) : Serializable
 
         @JsonClass(generateAdapter = true)
         data class ThrustSeaLevel(
@@ -99,7 +99,7 @@ data class Rocket(
             val kN: Double? = 0.0,
             @Json(name = "lbf")
             val lbf: Double? = 0.0
-        )
+        ) : Serializable
 
         @JsonClass(generateAdapter = true)
         data class ThrustVacuum(
@@ -107,7 +107,7 @@ data class Rocket(
             val kN: Double? = 0.0,
             @Json(name = "lbf")
             val lbf: Double? = 0.0
-        )
+        ) : Serializable
     }
 
     @JsonClass(generateAdapter = true)
@@ -124,14 +124,14 @@ data class Rocket(
         val thrustSeaLevel: ThrustSeaLevel = ThrustSeaLevel(),
         @Json(name = "thrust_vacuum")
         val thrustVacuum: ThrustVacuum = ThrustVacuum()
-    ) {
+    ) : Serializable {
         @JsonClass(generateAdapter = true)
         data class ThrustSeaLevel(
             @Json(name = "kN")
             val kN: Double? = 0.0,
             @Json(name = "lbf")
             val lbf: Double? = 0.0
-        )
+        ) : Serializable
 
         @JsonClass(generateAdapter = true)
         data class ThrustVacuum(
@@ -139,7 +139,7 @@ data class Rocket(
             val kN: Double? = 0.0,
             @Json(name = "lbf")
             val lbf: Double? = 0.0
-        )
+        ) : Serializable
     }
 
     @JsonClass(generateAdapter = true)
@@ -148,7 +148,7 @@ data class Rocket(
         val feet: Double? = 0.0,
         @Json(name = "meters")
         val meters: Double? = 0.0
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class LandingLegs(
@@ -156,7 +156,7 @@ data class Rocket(
         val material: String? = "",
         @Json(name = "number")
         val number: Int = 0
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class Mass(
@@ -164,7 +164,7 @@ data class Rocket(
         val kg: Double? = 0.0,
         @Json(name = "lb")
         val lb: Double? = 0.0
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class PayloadWeight(
@@ -176,7 +176,7 @@ data class Rocket(
         val lb: Double? = 0.0,
         @Json(name = "name")
         val name: String? = ""
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class SecondStage(
@@ -192,28 +192,28 @@ data class Rocket(
         val reusable: Boolean = false,
         @Json(name = "thrust")
         val thrust: Thrust = Thrust()
-    ) {
+    ) : Serializable {
         @JsonClass(generateAdapter = true)
         data class Payloads(
             @Json(name = "composite_fairing")
             val compositeFairing: CompositeFairing = CompositeFairing(),
             @Json(name = "option_1")
             val option1: String? = ""
-        ) {
+        ) : Serializable {
             @JsonClass(generateAdapter = true)
             data class CompositeFairing(
                 @Json(name = "diameter")
                 val diameter: Diameter = Diameter(),
                 @Json(name = "height")
                 val height: Height = Height()
-            ) {
+            ) : Serializable {
                 @JsonClass(generateAdapter = true)
                 data class Diameter(
                     @Json(name = "feet")
                     val feet: Double? = 0.0,
                     @Json(name = "meters")
                     val meters: Double? = 0.0
-                )
+                ) : Serializable
 
                 @JsonClass(generateAdapter = true)
                 data class Height(
@@ -221,7 +221,7 @@ data class Rocket(
                     val feet: Double? = 0.0,
                     @Json(name = "meters")
                     val meters: Double? = 0.0
-                )
+                ) : Serializable
             }
         }
 
@@ -231,6 +231,6 @@ data class Rocket(
             val kN: Double? = 0.0,
             @Json(name = "lbf")
             val lbf: Double? = 0.0
-        )
+        ) : Serializable
     }
 }

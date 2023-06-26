@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -21,8 +22,10 @@ import com.kotlin.spacexapp.ui.theme.SpaceXAppTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    private val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel.startScreenProcedure(this)
         setContent {
             SpaceXAppTheme {
                 val navController = rememberNavController()
@@ -88,7 +91,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(1.dp)
                                 .fillMaxSize()
                         ) {
-                            Navigation(navController)
+                            Navigation(navController, mainViewModel)
                         }
 
                     }

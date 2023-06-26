@@ -10,11 +10,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun RocketsScreen(mainViewModel: MainViewModel = viewModel()) {
-    mainViewModel.fetchRockets()
+fun RocketsScreen(mainViewModel: MainViewModel) {
+    val context = LocalContext.current
+    mainViewModel.startScreenProcedure(context)
+    mainViewModel.fetchRockets(context = context)
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

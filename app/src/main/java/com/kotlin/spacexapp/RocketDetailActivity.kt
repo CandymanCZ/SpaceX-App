@@ -1,8 +1,10 @@
 package com.kotlin.spacexapp
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -24,13 +26,21 @@ import coil.compose.AsyncImage
 import com.kotlin.spacexapp.RetrofitClientInstance.Companion.moshi
 import com.kotlin.spacexapp.ui.theme.SpaceXAppTheme
 import com.squareup.moshi.JsonAdapter
+import java.lang.Class
 
+@Suppress("DEPRECATION")
 class RocketDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val jsonString: String? = intent.getStringExtra("json")
-        val jsonAdapter: JsonAdapter<Rocket> = moshi.adapter(Rocket::class.java)
-        val rocket: Rocket = jsonAdapter.fromJson(jsonString)!!
+        var rocket: Rocket = Rocket()
+
+        // getSerializable extra was deprecated so a version check has to be done
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            rocket = intent.getSerializableExtra("rocket", Rocket::class.java)!!
+        } else {
+            rocket = intent.getSerializableExtra("rocket") as Rocket
+        }
+
         setContent {
             SpaceXAppTheme {
                 Column(
@@ -38,7 +48,7 @@ class RocketDetailActivity : ComponentActivity() {
                         .wrapContentHeight()
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState())
-                        .padding(10.dp)
+                        .padding(15.dp)
                 ) {
                     Column(
                         modifier = Modifier
@@ -48,12 +58,12 @@ class RocketDetailActivity : ComponentActivity() {
                     ) {
                         Text(
                             modifier = Modifier
-                                .padding(top = 10.dp),
+                                .padding(top = 10.dp, bottom = 10.dp),
                             text = rocket.name,
                             color = Color.Black,
                             fontWeight = FontWeight.Bold,
                             textDecoration = TextDecoration.Underline,
-                            fontSize = 20.sp
+                            fontSize = 35.sp
                         )
                     }
                     Text(text = rocket.description!!)

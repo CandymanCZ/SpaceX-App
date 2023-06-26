@@ -7,19 +7,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun Navigation(navHostController: NavHostController) {
+fun Navigation(navHostController: NavHostController, mainViewModel: MainViewModel) {
     NavHost(navController = navHostController, startDestination = Screen.RocketsScreen.route) {
         composable(route = Screen.RocketsScreen.route) {
-            RocketsScreen()
+            RocketsScreen(mainViewModel)
         }
         composable(route = Screen.UpcomingLaunchesScreen.route) {
-            UpcomingLaunchesScreen()
+            UpcomingLaunchesScreen(mainViewModel)
         }
         composable(route = Screen.PastLaunchesScreen.route) {
-            PastLaunchesScreen()
+            PastLaunchesScreen(mainViewModel)
         }
         composable(route = Screen.CompanyInfoScreen.route) {
-            CompanyInfoScreen()
+            CompanyInfoScreen(mainViewModel)
         }
     }
 }
