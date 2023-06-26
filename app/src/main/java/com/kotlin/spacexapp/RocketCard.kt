@@ -18,7 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 
 @Composable
-fun RocketCard(rocket: Rocket, mainViewModel: MainViewModel = viewModel()) {
+fun RocketCard(rocket: Rocket, mainViewModel: MainViewModel) {
     val context = LocalContext.current
     Card(
         elevation = 4.dp,

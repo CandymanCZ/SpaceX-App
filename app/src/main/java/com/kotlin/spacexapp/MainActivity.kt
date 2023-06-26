@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
                     scaffoldState = scaffoldState,
                     topBar = {
                              AppBar(
+                                 navHostController = navController,
                                  onNavigationIconClick = {
                                      scope.launch {
                                          scaffoldState.drawerState.open()

@@ -24,7 +24,7 @@ fun RocketsScreen(mainViewModel: MainViewModel) {
     ) {
         LazyColumn {
             items(mainViewModel.rocketList.value) {rocket ->
-                RocketCard(rocket)
+                RocketCard(rocket, mainViewModel)
             }
         }
     }

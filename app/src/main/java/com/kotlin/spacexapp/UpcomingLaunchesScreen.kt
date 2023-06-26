@@ -1,8 +1,11 @@
 package com.kotlin.spacexapp
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,14 +16,15 @@ import androidx.compose.ui.platform.LocalContext
 @Composable
 fun UpcomingLaunchesScreen(mainViewModel: MainViewModel) {
     val context = LocalContext.current
+    mainViewModel.fetchUpcomingLaunches(context)
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Upcoming Launches")
-        Button(onClick = { mainViewModel.fetchUpcomingLaunches(context) }) {
-            Text(text = "Try")
+        LazyColumn {
+            items(mainViewModel.upcomingLaunchesList.value) {upcomingLaunch ->
+                UpcomingLaunchCard(upcomingLaunch, mainViewModel)
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ class MainViewModel: ViewModel() {
     val rocketList = mutableStateOf(listOf<Rocket>())
     val companyInfo = mutableStateOf(GetCompanyInfoResponse())
     val upcomingLaunchesList = mutableStateOf(listOf<UpcomingLaunch>())
+    val pastLaunchesList = mutableStateOf(listOf<PastLaunch>())
 
 
     fun fetchRockets(context: Context) {
@@ -54,7 +55,7 @@ class MainViewModel: ViewModel() {
         mMainRepository.getUpcomingLaunchesRemote(object : MainRepository.IGetUpcomingLaunchesResponse {
             override fun onResponse(getUpcomingLaunchesResponse: List<UpcomingLaunch>?) {
                 println("Success!!!!!!!!!!!!!!!")
-
+                upcomingLaunchesList.value = getUpcomingLaunchesResponse!!
             }
 
             override fun onFailure(t: Throwable) {
