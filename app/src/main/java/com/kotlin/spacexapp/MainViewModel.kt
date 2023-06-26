@@ -16,6 +16,8 @@ class MainViewModel: ViewModel() {
     }
     val rocketList = mutableStateOf(listOf<Rocket>())
     val companyInfo = mutableStateOf(GetCompanyInfoResponse())
+    val upcomingLaunchesList = mutableStateOf(listOf<UpcomingLaunch>())
+
 
     fun fetchRockets(context: Context) {
         mMainRepository.getRocketsRemote(object : MainRepository.IGetRocketsResponse {
@@ -48,6 +50,37 @@ class MainViewModel: ViewModel() {
     }
 
 
+    fun fetchUpcomingLaunches(context: Context) {
+        mMainRepository.getUpcomingLaunchesRemote(object : MainRepository.IGetUpcomingLaunchesResponse {
+            override fun onResponse(getUpcomingLaunchesResponse: List<UpcomingLaunch>?) {
+                println("Success!!!!!!!!!!!!!!!")
+
+            }
+
+            override fun onFailure(t: Throwable) {
+                println("Failure :(((((((((((((")
+                println(t.localizedMessage)
+            }
+        })
+    }
+
+
+    fun fetchPastLaunches(context: Context) {
+        mMainRepository.getPastLaunchesRemote(object : MainRepository.IGetPastLaunchesResponse {
+            override fun onResponse(getPastLaunchesResponse: List<PastLaunch>?) {
+                println("Success!!!!!!!!!!!!!!!")
+
+            }
+
+            override fun onFailure(t: Throwable) {
+                println("Failure :(((((((((((((")
+                println(t.localizedMessage)
+            }
+        })
+    }
+
+
+    // Convert the whole rocket list into json before saving it into shared preferences
     fun saveJson(context: Context) {
         val jsonString: String = moshi
             .adapter<List<Rocket>>(Types.newParameterizedType(List::class.java, Rocket::class.java))
@@ -68,12 +101,7 @@ class MainViewModel: ViewModel() {
 
 
     fun openRocketDetailScreen(rocket: Rocket, context: Context) {
-        // Convert the rocket object to raw json before passing it as an intent extra
-        val jsonAdapter: JsonAdapter<Rocket> = moshi.adapter(Rocket::class.java)
-        val jsonString: String = jsonAdapter.toJson(rocket)
-
         val intent = Intent(context, RocketDetailActivity::class.java)
-        intent.putExtra("json", jsonString)
         intent.putExtra("rocket", rocket)
         context.startActivity(intent)
     }

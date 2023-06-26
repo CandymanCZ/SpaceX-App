@@ -82,7 +82,5 @@ fun CompanyInfoScreen(mainViewModel: MainViewModel) {
         Text(text = "COO: " + mainViewModel.companyInfo.value.coo)
         Text(text = "CTO of propulsion: " + mainViewModel.companyInfo.value.ctoPropulsion)
         Text(text = "Valuation: " + mainViewModel.companyInfo.value.valuation + " USD")
-
-        
     }
 }

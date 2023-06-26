@@ -56,6 +56,52 @@ class MainRepository {
     }
 
 
+    fun getUpcomingLaunchesRemote(getUpcomingLaunchesResponse: IGetUpcomingLaunchesResponse) {
+        val getUpcomingLaunchesService: GetUpcomingLaunchesService = RetrofitClientInstance.getInstance().create(GetUpcomingLaunchesService::class.java)
+        val initiateGetUpcomingLaunches: Call<List<UpcomingLaunch>> = getUpcomingLaunchesService.fetchUpcomingLaunches()
+
+        initiateGetUpcomingLaunches.enqueue(object : Callback<List<UpcomingLaunch>?> {
+            override fun onResponse(
+                call: Call<List<UpcomingLaunch>?>,
+                response: Response<List<UpcomingLaunch>?>
+            ) {
+                if (response.isSuccessful) {
+                    getUpcomingLaunchesResponse.onResponse(response.body())
+                } else {
+                    getUpcomingLaunchesResponse.onFailure(Throwable(response.message()))
+                }
+            }
+
+            override fun onFailure(call: Call<List<UpcomingLaunch>?>, t: Throwable) {
+                getUpcomingLaunchesResponse.onFailure(t)
+            }
+        })
+    }
+
+
+    fun getPastLaunchesRemote(getPastLaunchesResponse: IGetPastLaunchesResponse) {
+        val getPastLaunchesService: GetPastLaunchesService = RetrofitClientInstance.getInstance().create(GetPastLaunchesService::class.java)
+        val initiateGetPastLaunches: Call<List<PastLaunch>> = getPastLaunchesService.fetchPastLaunches()
+
+        initiateGetPastLaunches.enqueue(object : Callback<List<PastLaunch>?> {
+            override fun onResponse(
+                call: Call<List<PastLaunch>?>,
+                response: Response<List<PastLaunch>?>
+            ) {
+                if (response.isSuccessful) {
+                    getPastLaunchesResponse.onResponse(response.body())
+                } else {
+                    getPastLaunchesResponse.onFailure(Throwable(response.message()))
+                }
+            }
+
+            override fun onFailure(call: Call<List<PastLaunch>?>, t: Throwable) {
+                getPastLaunchesResponse.onFailure(t)
+            }
+        })
+    }
+
+
     fun saveJson(jsonString: String, context: Context) {
         val prefs = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         val editor = prefs.edit()
@@ -78,6 +124,18 @@ class MainRepository {
 
     interface IGetCompanyInfoResponse {
         fun onResponse(getCompanyInfoResponse: GetCompanyInfoResponse?)
+        fun onFailure(t: Throwable)
+    }
+
+
+    interface IGetUpcomingLaunchesResponse {
+        fun onResponse(getUpcomingLaunchesResponse: List<UpcomingLaunch>?)
+        fun onFailure(t: Throwable)
+    }
+
+
+    interface IGetPastLaunchesResponse {
+        fun onResponse(getPastLaunchesResponse: List<PastLaunch>?)
         fun onFailure(t: Throwable)
     }
 }

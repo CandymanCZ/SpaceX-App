@@ -4,14 +4,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,10 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.kotlin.spacexapp.RetrofitClientInstance.Companion.moshi
 import com.kotlin.spacexapp.ui.theme.SpaceXAppTheme
-import com.squareup.moshi.JsonAdapter
-import java.lang.Class
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Suppress("DEPRECATION")
 class RocketDetailActivity : ComponentActivity() {
@@ -78,6 +73,11 @@ class RocketDetailActivity : ComponentActivity() {
                     Text(text = "Landing legs: " + rocket.landingLegs.number.toString())
                     Text(text = "Cost per launch: " + rocket.costPerLaunch + " USD")
 
+                    val dateString: String = rocket.firstFlight!!
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val date = LocalDate.parse(dateString, formatter)
+                    Text(text = "First flight: " + date.dayOfMonth + "." + date.monthValue + "." + date.year)
+
                     Spacer(modifier = Modifier.height(20.dp))
                     for (imageURL: String? in rocket.flickrImages) {
                         AsyncImage(
@@ -87,7 +87,6 @@ class RocketDetailActivity : ComponentActivity() {
                             contentDescription = "Rocket image",
                         )
                     }
-
                 }
             }
         }
