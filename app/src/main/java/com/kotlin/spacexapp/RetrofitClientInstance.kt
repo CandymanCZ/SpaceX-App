@@ -14,7 +14,7 @@ class RetrofitClientInstance {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .baseUrl("https://api.spacexdata.com/") // Space-X API base URL
-                    .addConverterFactory(MoshiConverterFactory.create(moshi))
+                    .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
                     .build()
             }
             return retrofit!!
