@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
                                  }
                              )
                     },
+                    drawerShape = RoundedCornerShape(20.dp),
                     drawerContent = {
                         DrawerHeader()
                         DrawerBody(

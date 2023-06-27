@@ -1,5 +1,6 @@
 package com.kotlin.spacexapp
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,7 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -19,9 +24,22 @@ fun DrawerHeader() {
         modifier = Modifier
             .padding(15.dp)
             .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
-        Text(text = "Header")
+        Column(
+            modifier = Modifier
+                .wrapContentHeight()
+                .wrapContentWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .height(100.dp),
+                painter = painterResource(id = R.drawable.spacex_title),
+                contentDescription = "Spaceship picture",
+            )
+        }
+
     }
 }
 

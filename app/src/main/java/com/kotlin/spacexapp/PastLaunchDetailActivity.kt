@@ -61,7 +61,9 @@ class PastLaunchDetailActivity : ComponentActivity() {
                             fontSize = 35.sp
                         )
                     }
-                    Text(text = pastLaunch.details!!)
+                    if (pastLaunch.details != null) {
+                        Text(text = pastLaunch.details!!)
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
 
                     val timeStamp = Timestamp(pastLaunch.dateUnix!! * 1000)
