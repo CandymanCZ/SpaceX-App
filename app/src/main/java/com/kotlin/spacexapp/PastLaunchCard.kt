@@ -14,8 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 
+
 @Composable
-fun UpcomingLaunchCard(upcomingLaunch: UpcomingLaunch, mainViewModel: MainViewModel) {
+fun PastLaunchCard(pastLaunch: PastLaunch, mainViewModel: MainViewModel) {
     Card(
         elevation = 4.dp,
         modifier = Modifier
@@ -29,20 +30,26 @@ fun UpcomingLaunchCard(upcomingLaunch: UpcomingLaunch, mainViewModel: MainViewMo
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            var patchURL: String = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
-            if (upcomingLaunch.links?.patch?.small != null) {
-                patchURL = upcomingLaunch.links.patch.small
-            }
-            AsyncImage(
+            Column(
                 modifier = Modifier
-                    .padding(10.dp),
-                model = patchURL,
-                contentDescription = "Rocket image",
-            )
-            Spacer(modifier = Modifier.width(20.dp))
+                    .width(100.dp)
+                    .height(100.dp)
+            ) {
+                var patchURL: String = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
+                if (pastLaunch.links?.patch?.small != null) {
+                    patchURL = pastLaunch.links.patch.small
+                }
+                AsyncImage(
+                    modifier = Modifier
+                        .padding(10.dp),
+                    model = patchURL,
+                    contentDescription = "Rocket image",
+                )
+            }
+
             Text(
                 modifier = Modifier.padding(10.dp),
-                text = upcomingLaunch.name!!,
+                text = pastLaunch.name!!,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
             )

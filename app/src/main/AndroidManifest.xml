@@ -3,18 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kotlin.spacexapp">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_spacex_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_spacex_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SpaceXApp"
         tools:targetApi="31">
+        <activity
+            android:name=".PastLaunchDetailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_past_launch_detail"
+            android:theme="@style/Theme.SpaceXApp" />
         <activity
             android:name=".RocketDetailActivity"
             android:exported="false"

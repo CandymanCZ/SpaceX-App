@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.SpaceXApp" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:statusBarColor">@color/space_grey</item>
         <item name="android:forceDarkAllowed">false</item>
     </style>
 </resources>
