@@ -3,6 +3,7 @@ package com.kotlin.spacexapp
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
 data class UpcomingLaunch(
@@ -58,7 +59,7 @@ data class UpcomingLaunch(
     val upcoming: Boolean? = false,
     @Json(name = "window")
     val window: Int? = 0
-) {
+) : Serializable {
     @JsonClass(generateAdapter = true)
     data class Core(
         @Json(name = "core")
@@ -79,7 +80,7 @@ data class UpcomingLaunch(
         val legs: Boolean? = false,
         @Json(name = "reused")
         val reused: Boolean? = false
-    )
+    ) : Serializable
 
     @JsonClass(generateAdapter = true)
     data class Links(
@@ -99,14 +100,14 @@ data class UpcomingLaunch(
         val wikipedia: String? = "",
         @Json(name = "youtube_id")
         val youtubeId: String? = ""
-    ) {
+    ) : Serializable {
         @JsonClass(generateAdapter = true)
         data class Flickr(
             @Json(name = "original")
             val original: List<String?>? = listOf(),
             @Json(name = "small")
             val small: List<Any?>? = listOf()
-        )
+        ) : Serializable
 
         @JsonClass(generateAdapter = true)
         data class Patch(
@@ -114,7 +115,7 @@ data class UpcomingLaunch(
             val large: String? = "",
             @Json(name = "small")
             val small: String? = ""
-        )
+        ) : Serializable
 
         @JsonClass(generateAdapter = true)
         data class Reddit(
@@ -126,6 +127,6 @@ data class UpcomingLaunch(
             val media: String? = "",
             @Json(name = "recovery")
             val recovery: Any? = Any()
-        )
+        ) : Serializable
     }
 }

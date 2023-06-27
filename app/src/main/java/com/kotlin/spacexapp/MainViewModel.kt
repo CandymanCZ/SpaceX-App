@@ -127,6 +127,18 @@ class MainViewModel: ViewModel() {
     }
 
 
+    fun openPastLaunchDetailScreen(pastLaunch: PastLaunch, context: Context) {
+        val intent = Intent(context, PastLaunchDetailActivity::class.java)
+        intent.putExtra("launch", pastLaunch)
+        context.startActivity(intent)
+    }
+
+
+    fun checkFilterYears(from: String, to: String) : Boolean {
+        return from.toInt() <= to.toInt()
+    }
+
+
     fun applyPastLaunchesFilter(
         context: Context,
         from: String,

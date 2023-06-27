@@ -29,7 +29,7 @@ class RocketDetailActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         var rocket: Rocket = Rocket()
 
-        // getSerializable extra was deprecated so a version check has to be done
+        // getSerializableExtra was deprecated so a version check has to be done
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             rocket = intent.getSerializableExtra("rocket", Rocket::class.java)!!
         } else {

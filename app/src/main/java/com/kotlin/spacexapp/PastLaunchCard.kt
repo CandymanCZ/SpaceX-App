@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,13 +18,14 @@ import coil.compose.AsyncImage
 
 @Composable
 fun PastLaunchCard(pastLaunch: PastLaunch, mainViewModel: MainViewModel) {
+    val context = LocalContext.current
     Card(
         elevation = 4.dp,
         modifier = Modifier
             .padding(5.dp)
             .fillMaxWidth()
             .wrapContentHeight()
-            .clickable { /*TODO*/ },
+            .clickable { mainViewModel.openPastLaunchDetailScreen(pastLaunch, context) },
         backgroundColor = Color.White,
         shape = RoundedCornerShape(10.dp)
     ) {

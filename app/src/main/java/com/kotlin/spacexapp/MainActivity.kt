@@ -195,14 +195,22 @@ class MainActivity : ComponentActivity() {
                                                 }
                                                 Spacer(modifier = Modifier.width(50.dp))
                                                 Button(onClick = {
-                                                    mainViewModel.applyPastLaunchesFilter(
-                                                        context = this@MainActivity,
-                                                        from = mainViewModel.selectedTextFrom.value,
-                                                        to = mainViewModel.selectedTextTo.value,
-                                                        rocketName = mainViewModel.selectedFilterRocketName.value,
-                                                        successfulOption = mainViewModel.selectedFlightSuccessOption.value
-                                                    )
-                                                    openFilterDialog.value = false
+                                                    if (mainViewModel.checkFilterYears(
+                                                            mainViewModel.selectedTextFrom.value,
+                                                            mainViewModel.selectedTextTo.value
+                                                        )) {
+                                                        mainViewModel.applyPastLaunchesFilter(
+                                                            context = this@MainActivity,
+                                                            from = mainViewModel.selectedTextFrom.value,
+                                                            to = mainViewModel.selectedTextTo.value,
+                                                            rocketName = mainViewModel.selectedFilterRocketName.value,
+                                                            successfulOption = mainViewModel.selectedFlightSuccessOption.value
+                                                        )
+                                                        openFilterDialog.value = false
+                                                    } else {
+                                                        Toast.makeText(this@MainActivity, "Please input valid year range", Toast.LENGTH_SHORT).show()
+                                                    }
+
                                                 }) {
                                                     Text(text = "Set filter")
                                                 }
