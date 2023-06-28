@@ -2,22 +2,24 @@ package com.kotlin.spacexapp
 
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import com.kotlin.spacexapp.RetrofitClientInstance.Companion.moshi
+import com.kotlin.spacexapp.api.GetCompanyInfoResponse
+import com.kotlin.spacexapp.mainfunctions.MainFunctions
 import com.squareup.moshi.Types
 import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class MainViewModel: ViewModel() {
     companion object {
         val mMainRepository: MainRepository = MainRepository()
     }
+    private val mainFunctions: MainFunctions = MainFunctions(mMainRepository)
+
     val rocketList = mutableStateOf(listOf<Rocket>())
     val companyInfo = mutableStateOf(GetCompanyInfoResponse())
     val upcomingLaunchesList = mutableStateOf(listOf<UpcomingLaunch>())
@@ -28,7 +30,7 @@ class MainViewModel: ViewModel() {
     val selectedTextTo = mutableStateOf("2006")
     val pastLaunchesFilterEnabled = mutableStateOf(false)
     val selectedFilterRocketName = mutableStateOf("Any")
-    var selectedFilterRocketId: String = ""
+    private var selectedFilterRocketId: String = ""
     val selectedFlightSuccessOption = mutableStateOf("Any")
     val isProgressBarEnabled = mutableStateOf(false)
 
@@ -37,9 +39,8 @@ class MainViewModel: ViewModel() {
         isProgressBarEnabled.value = true
         mMainRepository.getRocketsRemote(object : MainRepository.IGetRocketsResponse {
             override fun onResponse(getRocketsResponse: List<Rocket>?) {
-                println("Success!!!!!!!!!!!!!!!")
                 rocketList.value = getRocketsResponse!!
-                saveJson(context)
+                saveJson(context, rocketList.value)
                 isProgressBarEnabled.value = false
             }
 
@@ -56,7 +57,6 @@ class MainViewModel: ViewModel() {
         isProgressBarEnabled.value = true
         mMainRepository.getCompanyInfoRemote(object : MainRepository.IGetCompanyInfoResponse {
             override fun onResponse(getCompanyInfoResponse: GetCompanyInfoResponse?) {
-                println("Success!!!!!!!!!!!!!!!")
                 companyInfo.value = getCompanyInfoResponse!!
                 isProgressBarEnabled.value = false
             }
@@ -74,7 +74,6 @@ class MainViewModel: ViewModel() {
         isProgressBarEnabled.value = true
         mMainRepository.getUpcomingLaunchesRemote(object : MainRepository.IGetUpcomingLaunchesResponse {
             override fun onResponse(getUpcomingLaunchesResponse: List<UpcomingLaunch>?) {
-                println("Success!!!!!!!!!!!!!!!")
                 upcomingLaunchesList.value = getUpcomingLaunchesResponse!!
                 isProgressBarEnabled.value = false
             }
@@ -92,7 +91,6 @@ class MainViewModel: ViewModel() {
         isProgressBarEnabled.value = true
         mMainRepository.getPastLaunchesRemote(object : MainRepository.IGetPastLaunchesResponse {
             override fun onResponse(getPastLaunchesResponse: List<PastLaunch>?) {
-                println("Success!!!!!!!!!!!!!!!")
                 pastLaunchesList.value = getPastLaunchesResponse!!
                 isProgressBarEnabled.value = false
 
@@ -108,21 +106,16 @@ class MainViewModel: ViewModel() {
 
 
     // Convert the whole rocket list into json before saving it into shared preferences
-    fun saveJson(context: Context) {
-        val jsonString: String = moshi
-            .adapter<List<Rocket>>(Types.newParameterizedType(List::class.java, Rocket::class.java))
-            .toJson(rocketList.value)
-        mMainRepository.saveJson(jsonString, context)
+    fun saveJson(context: Context, rocketList: List<Rocket>) {
+        mainFunctions.convertToJsonAndSave(context, rocketList)
     }
 
 
     // Recovers json and parses it into Rocket objects if found
     fun startScreenProcedure(context: Context) {
-        val string: String = mMainRepository.retrieveJson(context)
-        if (string != "empty") {
-            rocketList.value = moshi
-                .adapter<List<Rocket>>(Types.newParameterizedType(List::class.java, Rocket::class.java))
-                .fromJson(string)!!
+        val retrievedRocketList: List<Rocket>? = mainFunctions.retrieveAndParseJson(context)
+        if (retrievedRocketList != null) {
+            rocketList.value = retrievedRocketList
         }
     }
 
@@ -142,17 +135,12 @@ class MainViewModel: ViewModel() {
 
 
     fun checkFilterYears(from: String, to: String) : Boolean {
-        return from.toInt() <= to.toInt()
+        return mainFunctions.checkFilterYears(from, to)
     }
 
 
     fun getRocketNameFromId(rocketId: String?) : String? {
-        for (rocket: Rocket in rocketList.value) {
-            if (rocketId == rocket.id) {
-                return  rocket.name
-            }
-        }
-        return null
+        return mainFunctions.getRocketNameFromId(rocketId, rocketList.value)
     }
 
 
@@ -163,19 +151,19 @@ class MainViewModel: ViewModel() {
         rocketName: String,
         successfulOption: String
     ) {
+        val filtered: MutableList<PastLaunch> = pastLaunchesList.value.toMutableList()
+
         // First get rocket ID from it's name
         for (rocket in rocketList.value) {
             if (rocket.name == rocketName) {
                 selectedFilterRocketId = rocket.id!!
             }
         }
-        val filtered: MutableList<PastLaunch> = pastLaunchesList.value.toMutableList()
+
         for (pastLaunch: PastLaunch in pastLaunchesList.value) {
-            val timeStamp = Timestamp(pastLaunch.dateUnix!! * 1000)
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")
-            val date = LocalDate.parse(timeStamp.toString(), formatter)
 
             // Filter by years
+            val date = mainFunctions.unixSecondsToDate(pastLaunch.dateUnix!!)
             if (date.year < from.toInt() || date.year > to.toInt()) {
                 filtered.remove(pastLaunch)
             }

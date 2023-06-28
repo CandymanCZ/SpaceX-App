@@ -1,6 +1,7 @@
 package com.kotlin.spacexapp
 
 import android.content.Context
+import com.kotlin.spacexapp.api.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,7 +12,8 @@ class MainRepository {
     }
 
     fun getRocketsRemote(getRocketsResponse: IGetRocketsResponse) {
-        val getRocketsService: GetRocketsService = RetrofitClientInstance.getInstance().create(GetRocketsService::class.java)
+        val getRocketsService: GetRocketsService = RetrofitClientInstance.getInstance().create(
+            GetRocketsService::class.java)
         val initiateGetRockets: Call<List<Rocket>> = getRocketsService.fetchRockets()
 
         initiateGetRockets.enqueue(object : Callback<List<Rocket>?> {
@@ -34,7 +36,8 @@ class MainRepository {
 
 
     fun getCompanyInfoRemote(getCompanyInfoResponse: IGetCompanyInfoResponse) {
-        val getCompanyInfoService: GetCompanyInfoService = RetrofitClientInstance.getInstance().create(GetCompanyInfoService::class.java)
+        val getCompanyInfoService: GetCompanyInfoService = RetrofitClientInstance.getInstance().create(
+            GetCompanyInfoService::class.java)
         val initiateGetCompanyInfo: Call<GetCompanyInfoResponse> = getCompanyInfoService.fetchCompanyInfo()
 
         initiateGetCompanyInfo.enqueue(object : Callback<GetCompanyInfoResponse?> {
@@ -57,7 +60,8 @@ class MainRepository {
 
 
     fun getUpcomingLaunchesRemote(getUpcomingLaunchesResponse: IGetUpcomingLaunchesResponse) {
-        val getUpcomingLaunchesService: GetUpcomingLaunchesService = RetrofitClientInstance.getInstance().create(GetUpcomingLaunchesService::class.java)
+        val getUpcomingLaunchesService: GetUpcomingLaunchesService = RetrofitClientInstance.getInstance().create(
+            GetUpcomingLaunchesService::class.java)
         val initiateGetUpcomingLaunches: Call<List<UpcomingLaunch>> = getUpcomingLaunchesService.fetchUpcomingLaunches()
 
         initiateGetUpcomingLaunches.enqueue(object : Callback<List<UpcomingLaunch>?> {
@@ -80,7 +84,8 @@ class MainRepository {
 
 
     fun getPastLaunchesRemote(getPastLaunchesResponse: IGetPastLaunchesResponse) {
-        val getPastLaunchesService: GetPastLaunchesService = RetrofitClientInstance.getInstance().create(GetPastLaunchesService::class.java)
+        val getPastLaunchesService: GetPastLaunchesService = RetrofitClientInstance.getInstance().create(
+            GetPastLaunchesService::class.java)
         val initiateGetPastLaunches: Call<List<PastLaunch>> = getPastLaunchesService.fetchPastLaunches()
 
         initiateGetPastLaunches.enqueue(object : Callback<List<PastLaunch>?> {

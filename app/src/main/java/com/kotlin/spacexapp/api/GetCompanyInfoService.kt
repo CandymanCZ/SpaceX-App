@@ -1,5 +1,6 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.api
 
+import com.kotlin.spacexapp.api.GetCompanyInfoResponse
 import retrofit2.Call
 import retrofit2.http.GET
 

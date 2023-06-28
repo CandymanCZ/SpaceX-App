@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.api
 
 
 import com.squareup.moshi.Json

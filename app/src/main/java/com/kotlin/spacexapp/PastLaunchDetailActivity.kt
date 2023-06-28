@@ -55,7 +55,6 @@ class PastLaunchDetailActivity : ComponentActivity() {
                         .wrapContentHeight()
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .background(color = Color.LightGray)
                 ) {
                     Column(
                         modifier = Modifier

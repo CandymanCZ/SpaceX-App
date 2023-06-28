@@ -45,7 +45,7 @@ fun PastLaunchCard(pastLaunch: PastLaunch, mainViewModel: MainViewModel) {
                     modifier = Modifier
                         .padding(10.dp),
                     model = patchURL,
-                    contentDescription = "Rocket image",
+                    contentDescription = "Patch image",
                 )
             }
 
