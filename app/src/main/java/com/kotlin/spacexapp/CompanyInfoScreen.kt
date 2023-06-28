@@ -20,7 +20,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun CompanyInfoScreen(mainViewModel: MainViewModel) {
     val context = LocalContext.current
-    mainViewModel.fetchCompanyInfo(context)
 
     Column(
         modifier = Modifier

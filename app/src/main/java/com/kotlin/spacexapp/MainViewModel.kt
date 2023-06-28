@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.widget.Toast
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import com.kotlin.spacexapp.RetrofitClientInstance.Companion.moshi
 import com.squareup.moshi.Types
@@ -33,68 +30,78 @@ class MainViewModel: ViewModel() {
     val selectedFilterRocketName = mutableStateOf("Any")
     var selectedFilterRocketId: String = ""
     val selectedFlightSuccessOption = mutableStateOf("Any")
-
-
-
+    val isProgressBarEnabled = mutableStateOf(false)
 
 
     fun fetchRockets(context: Context) {
+        isProgressBarEnabled.value = true
         mMainRepository.getRocketsRemote(object : MainRepository.IGetRocketsResponse {
             override fun onResponse(getRocketsResponse: List<Rocket>?) {
                 println("Success!!!!!!!!!!!!!!!")
                 rocketList.value = getRocketsResponse!!
                 saveJson(context)
+                isProgressBarEnabled.value = false
             }
 
             override fun onFailure(t: Throwable) {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
                 println(t.localizedMessage)
+                isProgressBarEnabled.value = false
             }
         })
     }
 
 
     fun fetchCompanyInfo(context: Context) {
+        isProgressBarEnabled.value = true
         mMainRepository.getCompanyInfoRemote(object : MainRepository.IGetCompanyInfoResponse {
             override fun onResponse(getCompanyInfoResponse: GetCompanyInfoResponse?) {
                 println("Success!!!!!!!!!!!!!!!")
                 companyInfo.value = getCompanyInfoResponse!!
+                isProgressBarEnabled.value = false
             }
 
             override fun onFailure(t: Throwable) {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
                 println(t.localizedMessage)
+                isProgressBarEnabled.value = false
             }
         })
     }
 
 
     fun fetchUpcomingLaunches(context: Context) {
+        isProgressBarEnabled.value = true
         mMainRepository.getUpcomingLaunchesRemote(object : MainRepository.IGetUpcomingLaunchesResponse {
             override fun onResponse(getUpcomingLaunchesResponse: List<UpcomingLaunch>?) {
                 println("Success!!!!!!!!!!!!!!!")
                 upcomingLaunchesList.value = getUpcomingLaunchesResponse!!
+                isProgressBarEnabled.value = false
             }
 
             override fun onFailure(t: Throwable) {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
                 println(t.localizedMessage)
+                isProgressBarEnabled.value = false
             }
         })
     }
 
 
     fun fetchPastLaunches(context: Context) {
+        isProgressBarEnabled.value = true
         mMainRepository.getPastLaunchesRemote(object : MainRepository.IGetPastLaunchesResponse {
             override fun onResponse(getPastLaunchesResponse: List<PastLaunch>?) {
                 println("Success!!!!!!!!!!!!!!!")
                 pastLaunchesList.value = getPastLaunchesResponse!!
+                isProgressBarEnabled.value = false
 
             }
 
             override fun onFailure(t: Throwable) {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
                 println(t.localizedMessage)
+                isProgressBarEnabled.value = false
             }
         })
     }
@@ -136,6 +143,16 @@ class MainViewModel: ViewModel() {
 
     fun checkFilterYears(from: String, to: String) : Boolean {
         return from.toInt() <= to.toInt()
+    }
+
+
+    fun getRocketNameFromId(rocketId: String?) : String? {
+        for (rocket: Rocket in rocketList.value) {
+            if (rocketId == rocket.id) {
+                return  rocket.name
+            }
+        }
+        return null
     }
 
 

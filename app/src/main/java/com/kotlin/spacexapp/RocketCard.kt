@@ -9,13 +9,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import org.intellij.lang.annotations.JdkConstants
 
 @Composable
 fun RocketCard(rocket: Rocket, mainViewModel: MainViewModel) {
@@ -37,9 +40,11 @@ fun RocketCard(rocket: Rocket, mainViewModel: MainViewModel) {
             Text(
                 modifier = Modifier
                     .padding(top = 10.dp),
-                text = rocket.name, color = Color.Black,
+                text = rocket.name,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold,
-                textDecoration = TextDecoration.Underline
+                textDecoration = TextDecoration.Underline,
+                fontSize = 20.sp
             )
             AsyncImage(
                 modifier = Modifier
@@ -49,6 +54,8 @@ fun RocketCard(rocket: Rocket, mainViewModel: MainViewModel) {
                 model = rocket.flickrImages[0]!!,
                 contentDescription = "Rocket image",
             )
+
+
 
 
 

@@ -20,7 +20,7 @@ data class UpcomingLaunch(
     @Json(name = "date_precision")
     val datePrecision: String? = "",
     @Json(name = "date_unix")
-    val dateUnix: Int? = 0,
+    val dateUnix: Long? = 0,
     @Json(name = "date_utc")
     val dateUtc: String? = "",
     @Json(name = "details")

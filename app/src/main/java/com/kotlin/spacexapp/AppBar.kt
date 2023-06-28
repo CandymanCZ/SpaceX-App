@@ -1,6 +1,9 @@
 package com.kotlin.spacexapp
 
 import android.content.Context
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -9,6 +12,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -45,6 +50,8 @@ fun AppBar(
             }
         },
         actions = {
+            SpinnyProgressBar(isDisplayed = mainViewModel.isProgressBarEnabled.value)
+            Spacer(modifier = Modifier.width(10.dp))
             IconButton(onClick = {
                 when (currentRoute) {
                     Screen.RocketsScreen.route -> mainViewModel.fetchRockets(context)
@@ -62,7 +69,6 @@ fun AppBar(
                     Icon(imageVector = Icons.Default.FilterList, contentDescription = "Refresh")
                 }
             }
-
         }
     )
 }

@@ -1,5 +1,6 @@
 package com.kotlin.spacexapp
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 
@@ -17,10 +20,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun RocketsScreen(mainViewModel: MainViewModel) {
     val context = LocalContext.current
     mainViewModel.startScreenProcedure(context)
-    mainViewModel.fetchRockets(context = context)
     Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize().background(LightGray),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LazyColumn {
             items(mainViewModel.rocketList.value) {rocket ->

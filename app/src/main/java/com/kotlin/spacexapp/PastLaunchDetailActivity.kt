@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,19 +37,31 @@ class PastLaunchDetailActivity : ComponentActivity() {
         } else {
             pastLaunch = intent.getSerializableExtra("launch") as PastLaunch
         }
+
+        val timeStamp = Timestamp(pastLaunch.dateUnix!! * 1000)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")
+        val date = LocalDate.parse(timeStamp.toString(), formatter)
+
+        val successString: String = when(pastLaunch.success) {
+            true -> "Successful"
+            false -> "Failed"
+            null -> "Unknown"
+        }
+
         setContent {
             SpaceXAppTheme {
                 Column(
                     modifier = Modifier
                         .wrapContentHeight()
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .padding(15.dp)
+                        .background(color = Color.LightGray)
                 ) {
                     Column(
                         modifier = Modifier
                             .wrapContentHeight()
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(15.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
@@ -61,23 +74,27 @@ class PastLaunchDetailActivity : ComponentActivity() {
                             fontSize = 35.sp
                         )
                     }
-                    if (pastLaunch.details != null) {
-                        Text(text = pastLaunch.details!!)
+                    Column(modifier = Modifier
+                        .padding(15.dp)
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                    ) {
+                        if (pastLaunch.details != null) {
+                            Text(text = pastLaunch.details!!)
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Text(text = "Date of launch: " + date.dayOfMonth + "." + date.monthValue + "." + date.year)
+                        Text(text = "Success: $successString")
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        AsyncImage(
+                            modifier = Modifier
+                                .padding(10.dp),
+                            model = pastLaunch.links!!.patch!!.large,
+                            contentDescription = "Rocket image",
+                        )
                     }
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    val timeStamp = Timestamp(pastLaunch.dateUnix!! * 1000)
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")
-                    val date = LocalDate.parse(timeStamp.toString(), formatter)
-                    Text(text = "Date of launch: " + date.dayOfMonth + "." + date.monthValue + "." + date.year)
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    AsyncImage(
-                        modifier = Modifier
-                            .padding(10.dp),
-                        model = pastLaunch.links!!.patch!!.large,
-                        contentDescription = "Rocket image",
-                    )
                 }
             }
         }

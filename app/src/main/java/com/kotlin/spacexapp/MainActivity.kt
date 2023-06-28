@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ class MainActivity : ComponentActivity() {
         mainViewModel.fetchPastLaunches(this)
         mainViewModel.fetchUpcomingLaunches(this)
         mainViewModel.fetchCompanyInfo(this)
+
         setContent {
             SpaceXAppTheme {
                 val navController = rememberNavController()
@@ -105,7 +107,7 @@ class MainActivity : ComponentActivity() {
                         Surface(
                             modifier = Modifier
                                 .padding(1.dp)
-                                .fillMaxSize()
+                                .fillMaxSize(),
                         ) {
                             Navigation(navController, mainViewModel)
 
