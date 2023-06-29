@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.dropdownmenus
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -8,16 +8,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-
+import com.kotlin.spacexapp.viewmodels.MainViewModel
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SuccessDropdownMenuBox(mainViewModel: MainViewModel) {
+fun FromYearDropdownMenuBox(mainViewModel: MainViewModel) {
     val context = LocalContext.current
+    val years = mutableListOf<Int>()
 
+    // Get current year to know up to when add the years
+    val calendar: Calendar = Calendar.getInstance()
+    val year: Int = calendar.get(Calendar.YEAR)
+    for (num in 2006..year) {
+        years.add(num)
+    }
     var expanded by remember { mutableStateOf(false) }
-    var selectedSuccessOption by remember { mutableStateOf(mainViewModel.selectedFlightSuccessOption.value) }
-    var selectOptions = mutableListOf<String>("Any", "Successful", "Failed")
+    var selectedText by remember { mutableStateOf(mainViewModel.selectedTextFrom.value) }
 
     Box(
         modifier = Modifier
@@ -31,7 +38,7 @@ fun SuccessDropdownMenuBox(mainViewModel: MainViewModel) {
             }
         ) {
             TextField(
-                value = selectedSuccessOption,
+                value = selectedText,
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -42,13 +49,14 @@ fun SuccessDropdownMenuBox(mainViewModel: MainViewModel) {
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                selectOptions.forEach { option ->
+                years.forEach { item ->
                     DropdownMenuItem(
-                        text = { Text(text = option) },
+                        text = { Text(text = item.toString()) },
                         onClick = {
-                            selectedSuccessOption = option
+                            selectedText = item.toString()
                             expanded = false
-                            mainViewModel.selectedFlightSuccessOption.value = selectedSuccessOption
+                            mainViewModel.selectedTextFrom.value = selectedText
+
                         }
                     )
                 }

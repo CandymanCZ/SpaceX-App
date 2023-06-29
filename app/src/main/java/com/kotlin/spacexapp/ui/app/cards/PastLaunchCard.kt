@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.cards
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.kotlin.spacexapp.viewmodels.MainViewModel
+import com.kotlin.spacexapp.PastLaunch
 
 
 @Composable
@@ -49,12 +51,20 @@ fun PastLaunchCard(pastLaunch: PastLaunch, mainViewModel: MainViewModel) {
                 )
             }
 
-            Text(
-                modifier = Modifier.padding(10.dp),
-                text = pastLaunch.name!!,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    modifier = Modifier.padding(10.dp),
+                    text = pastLaunch.name!!,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    modifier = Modifier.padding(10.dp),
+                    text = mainViewModel.mainFunctions.getRocketNameFromId(pastLaunch.rocket!!, mainViewModel.rocketList.value)!!
+                )
+            }
+
+
         }
     }
 }

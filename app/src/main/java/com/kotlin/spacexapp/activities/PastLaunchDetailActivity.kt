@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.activities
 
 import android.os.Build
 import android.os.Bundle
@@ -18,22 +18,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.kotlin.spacexapp.PastLaunch
 import com.kotlin.spacexapp.ui.theme.SpaceXAppTheme
+import java.sql.Timestamp
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-@Suppress("DEPRECATION")
-class RocketDetailActivity : ComponentActivity() {
+class PastLaunchDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var rocket: Rocket = Rocket()
+        var pastLaunch: PastLaunch = PastLaunch()
 
         // getSerializableExtra was deprecated so a version check has to be done
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            rocket = intent.getSerializableExtra("rocket", Rocket::class.java)!!
+            pastLaunch = intent.getSerializableExtra("launch", PastLaunch::class.java)!!
         } else {
-            rocket = intent.getSerializableExtra("rocket") as Rocket
+            pastLaunch = intent.getSerializableExtra("launch") as PastLaunch
+        }
+
+        val timeStamp = Timestamp(pastLaunch.dateUnix!! * 1000)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")
+        val date = LocalDate.parse(timeStamp.toString(), formatter)
+
+        val successString: String = when(pastLaunch.success) {
+            true -> "Successful"
+            false -> "Failed"
+            null -> "Unknown"
         }
 
         setContent {
@@ -41,49 +51,44 @@ class RocketDetailActivity : ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .wrapContentHeight()
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .padding(15.dp)
                 ) {
                     Column(
                         modifier = Modifier
                             .wrapContentHeight()
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(15.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
                             modifier = Modifier
                                 .padding(top = 10.dp, bottom = 10.dp),
-                            text = rocket.name,
+                            text = pastLaunch.name!!,
                             color = Color.Black,
                             fontWeight = FontWeight.Bold,
                             textDecoration = TextDecoration.Underline,
                             fontSize = 35.sp
                         )
                     }
-                    Text(text = rocket.description!!)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Type: " + rocket.type)
-                    Text(text = "Stages: " + rocket.stages)
-                    Text(text = "Boosters: " + rocket.boosters)
-                    Text(text = "Height: " + rocket.height.meters + " meters")
-                    Text(text = "Diameter: " + rocket.diameter.meters + " meters")
-                    Text(text = "Mass: " + rocket.mass.kg + " kilograms")
-                    Text(text = "Engines: " + rocket.engines.number.toString())
-                    Text(text = "Landing legs: " + rocket.landingLegs.number.toString())
-                    Text(text = "Cost per launch: " + rocket.costPerLaunch + " USD")
+                    Column(modifier = Modifier
+                        .padding(15.dp)
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                    ) {
+                        if (pastLaunch.details != null) {
+                            Text(text = pastLaunch.details!!)
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
 
-                    val dateString: String = rocket.firstFlight!!
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = LocalDate.parse(dateString, formatter)
-                    Text(text = "First flight: " + date.dayOfMonth + "." + date.monthValue + "." + date.year)
+                        Text(text = "Date of launch: " + date.dayOfMonth + "." + date.monthValue + "." + date.year)
+                        Text(text = "Success: $successString")
+                        Spacer(modifier = Modifier.height(20.dp))
 
-                    Spacer(modifier = Modifier.height(20.dp))
-                    for (imageURL: String? in rocket.flickrImages) {
                         AsyncImage(
                             modifier = Modifier
                                 .padding(10.dp),
-                            model = imageURL,
+                            model = pastLaunch.links!!.patch!!.large,
                             contentDescription = "Rocket image",
                         )
                     }
@@ -96,8 +101,8 @@ class RocketDetailActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview2() {
+fun DefaultPreview3() {
     SpaceXAppTheme {
-        
+
     }
 }

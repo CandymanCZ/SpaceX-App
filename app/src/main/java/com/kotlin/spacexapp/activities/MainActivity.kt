@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.activities
 
 import android.os.Bundle
 import android.widget.Toast
@@ -23,8 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import com.kotlin.spacexapp.ui.app.navigation.MenuItem
+import com.kotlin.spacexapp.ui.app.dropdownmenus.FromYearDropdownMenuBox
+import com.kotlin.spacexapp.ui.app.dropdownmenus.RocketDropdownMenuBox
+import com.kotlin.spacexapp.ui.app.dropdownmenus.SuccessDropdownMenuBox
+import com.kotlin.spacexapp.ui.app.dropdownmenus.ToYearDropdownMenuBox
+import com.kotlin.spacexapp.ui.app.navigation.*
 import com.kotlin.spacexapp.ui.theme.SpaceXAppTheme
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.api
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -8,7 +8,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class RetrofitClientInstance {
     companion object {
         private var retrofit: Retrofit? = null
-        val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+        val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
         fun getInstance(): Retrofit {
             if (retrofit == null) {

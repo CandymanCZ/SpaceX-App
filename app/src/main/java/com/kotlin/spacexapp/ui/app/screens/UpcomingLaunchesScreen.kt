@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.kotlin.spacexapp.MainViewModel
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 import com.kotlin.spacexapp.UpcomingLaunchCard
 import com.kotlin.spacexapp.ui.theme.LightGrey
 

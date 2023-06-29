@@ -4,6 +4,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.kotlin.spacexapp.ui.app.screens.PastLaunchesScreen
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

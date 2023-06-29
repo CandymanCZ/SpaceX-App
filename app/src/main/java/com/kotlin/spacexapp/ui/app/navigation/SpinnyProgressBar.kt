@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.navigation
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator

@@ -1,6 +1,5 @@
 package com.kotlin.spacexapp
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -13,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -25,8 +25,6 @@ fun UpcomingLaunchCard(upcomingLaunch: UpcomingLaunch, mainViewModel: MainViewMo
 
     var rocketName: String? = mainViewModel.getRocketNameFromId(upcomingLaunch.rocket)
     if (rocketName == null) rocketName = "Unknown"
-
-
 
     Card(
         elevation = 4.dp,
@@ -70,7 +68,6 @@ fun UpcomingLaunchCard(upcomingLaunch: UpcomingLaunch, mainViewModel: MainViewMo
                     text = date.dayOfMonth.toString() + "." + date.monthValue.toString() + "." + date.year.toString()
                 )
             }
-
         }
     }
 }

@@ -1,7 +1,6 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.dropdownmenus
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.*
@@ -9,23 +8,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import java.util.*
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToYearDropdownMenuBox(mainViewModel: MainViewModel) {
+fun RocketDropdownMenuBox(mainViewModel: MainViewModel) {
     val context = LocalContext.current
-    val years = mutableListOf<Int>()
 
-    // Get current year to know up to when add the years
-    val calendar: Calendar = Calendar.getInstance()
-    val year: Int = calendar.get(Calendar.YEAR)
-    for (num in 2006..year) {
-        years.add(num)
-    }
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(mainViewModel.selectedTextTo.value) }
+    var selectedRocketName by remember { mutableStateOf(mainViewModel.selectedFilterRocketName.value) }
+    var rocketNameList = mutableListOf<String>("Any")
+
+    mainViewModel.rocketList
+    for (rocket in mainViewModel.rocketList.value) {
+        rocketNameList.add(rocket.name)
+    }
 
     Box(
         modifier = Modifier
@@ -39,7 +37,7 @@ fun ToYearDropdownMenuBox(mainViewModel: MainViewModel) {
             }
         ) {
             TextField(
-                value = selectedText,
+                value = selectedRocketName,
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -50,14 +48,13 @@ fun ToYearDropdownMenuBox(mainViewModel: MainViewModel) {
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                years.forEach { item ->
+                rocketNameList.forEach { name ->
                     DropdownMenuItem(
-                        text = { Text(text = item.toString()) },
+                        text = { Text(text = name) },
                         onClick = {
-                            selectedText = item.toString()
+                            selectedRocketName = name
                             expanded = false
-                            mainViewModel.selectedTextTo.value = selectedText
-
+                            mainViewModel.selectedFilterRocketName.value = selectedRocketName
                         }
                     )
                 }

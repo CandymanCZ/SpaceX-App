@@ -1,6 +1,10 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.repositories
 
 import android.content.Context
+import com.kotlin.spacexapp.PastLaunch
+import com.kotlin.spacexapp.api.RetrofitClientInstance
+import com.kotlin.spacexapp.Rocket
+import com.kotlin.spacexapp.UpcomingLaunch
 import com.kotlin.spacexapp.api.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -60,7 +64,8 @@ class MainRepository {
 
 
     fun getUpcomingLaunchesRemote(getUpcomingLaunchesResponse: IGetUpcomingLaunchesResponse) {
-        val getUpcomingLaunchesService: GetUpcomingLaunchesService = RetrofitClientInstance.getInstance().create(
+        val getUpcomingLaunchesService: GetUpcomingLaunchesService = RetrofitClientInstance.getInstance()
+            .create(
             GetUpcomingLaunchesService::class.java)
         val initiateGetUpcomingLaunches: Call<List<UpcomingLaunch>> = getUpcomingLaunchesService.fetchUpcomingLaunches()
 

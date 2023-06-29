@@ -1,9 +1,8 @@
 package com.kotlin.spacexapp.mainfunctions
 
 import android.content.Context
-import com.kotlin.spacexapp.MainRepository
-import com.kotlin.spacexapp.MainViewModel
-import com.kotlin.spacexapp.RetrofitClientInstance
+import com.kotlin.spacexapp.repositories.MainRepository
+import com.kotlin.spacexapp.api.RetrofitClientInstance
 import com.kotlin.spacexapp.Rocket
 import com.squareup.moshi.Types
 

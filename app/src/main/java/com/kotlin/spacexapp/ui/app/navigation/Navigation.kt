@@ -1,9 +1,11 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.kotlin.spacexapp.CompanyInfoScreen
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 import com.kotlin.spacexapp.ui.app.screens.PastLaunchesScreen
 import com.kotlin.spacexapp.ui.app.screens.RocketsScreen
 import com.kotlin.spacexapp.ui.app.screens.UpcomingLaunchesScreen

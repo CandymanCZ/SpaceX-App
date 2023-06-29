@@ -1,24 +1,26 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.viewmodels
 
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
-import com.kotlin.spacexapp.RetrofitClientInstance.Companion.moshi
+import com.kotlin.spacexapp.repositories.MainRepository
+import com.kotlin.spacexapp.PastLaunch
+import com.kotlin.spacexapp.Rocket
+import com.kotlin.spacexapp.UpcomingLaunch
 import com.kotlin.spacexapp.api.GetCompanyInfoResponse
 import com.kotlin.spacexapp.mainfunctions.MainFunctions
-import com.squareup.moshi.Types
-import java.sql.Timestamp
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.kotlin.spacexapp.activities.PastLaunchDetailActivity
+import com.kotlin.spacexapp.activities.RocketDetailActivity
+
 
 
 class MainViewModel: ViewModel() {
     companion object {
         val mMainRepository: MainRepository = MainRepository()
     }
-    private val mainFunctions: MainFunctions = MainFunctions(mMainRepository)
+    val mainFunctions: MainFunctions = MainFunctions(mMainRepository)
 
     val rocketList = mutableStateOf(listOf<Rocket>())
     val companyInfo = mutableStateOf(GetCompanyInfoResponse())
@@ -30,7 +32,6 @@ class MainViewModel: ViewModel() {
     val selectedTextTo = mutableStateOf("2006")
     val pastLaunchesFilterEnabled = mutableStateOf(false)
     val selectedFilterRocketName = mutableStateOf("Any")
-    private var selectedFilterRocketId: String = ""
     val selectedFlightSuccessOption = mutableStateOf("Any")
     val isProgressBarEnabled = mutableStateOf(false)
 
@@ -72,7 +73,8 @@ class MainViewModel: ViewModel() {
 
     fun fetchUpcomingLaunches(context: Context) {
         isProgressBarEnabled.value = true
-        mMainRepository.getUpcomingLaunchesRemote(object : MainRepository.IGetUpcomingLaunchesResponse {
+        mMainRepository.getUpcomingLaunchesRemote(object :
+            MainRepository.IGetUpcomingLaunchesResponse {
             override fun onResponse(getUpcomingLaunchesResponse: List<UpcomingLaunch>?) {
                 upcomingLaunchesList.value = getUpcomingLaunchesResponse!!
                 isProgressBarEnabled.value = false
@@ -151,45 +153,16 @@ class MainViewModel: ViewModel() {
         rocketName: String,
         successfulOption: String
     ) {
-        val filtered: MutableList<PastLaunch> = pastLaunchesList.value.toMutableList()
+        val filtered: MutableList<PastLaunch>? = mainFunctions.filterPastLaunches(
+            from = from,
+            to = to,
+            successfulOption = successfulOption,
+            pastLaunchesList = pastLaunchesList.value,
+            rocketName = rocketName,
+            rocketList = rocketList.value
+        )
 
-        // First get rocket ID from it's name
-        for (rocket in rocketList.value) {
-            if (rocket.name == rocketName) {
-                selectedFilterRocketId = rocket.id!!
-            }
-        }
-
-        for (pastLaunch: PastLaunch in pastLaunchesList.value) {
-
-            // Filter by years
-            val date = mainFunctions.unixSecondsToDate(pastLaunch.dateUnix!!)
-            if (date.year < from.toInt() || date.year > to.toInt()) {
-                filtered.remove(pastLaunch)
-            }
-
-            // Filter by rocket
-            if (rocketName != "Any") {
-                if (pastLaunch.rocket != selectedFilterRocketId) {
-                    filtered.remove(pastLaunch)
-                }
-            }
-
-            // Filter by success
-            if (successfulOption != "Any" && pastLaunch.success != null) {
-                if (successfulOption == "Successful") {
-                    if (!pastLaunch.success!!) {
-                        filtered.remove(pastLaunch)
-                    }
-                } else {
-                    if (pastLaunch.success!!) {
-                        filtered.remove(pastLaunch)
-                    }
-                }
-            }
-        }
-
-        if (filtered.isEmpty()) {
+        if (filtered.isNullOrEmpty()) {
             Toast.makeText(context, "No results for your filter", Toast.LENGTH_SHORT).show()
             return
         }

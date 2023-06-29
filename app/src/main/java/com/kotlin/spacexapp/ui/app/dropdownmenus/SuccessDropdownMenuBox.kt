@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.dropdownmenus
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -8,22 +8,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import java.util.*
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RocketDropdownMenuBox(mainViewModel: MainViewModel) {
+fun SuccessDropdownMenuBox(mainViewModel: MainViewModel) {
     val context = LocalContext.current
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedRocketName by remember { mutableStateOf(mainViewModel.selectedFilterRocketName.value) }
-    var rocketNameList = mutableListOf<String>("Any")
-
-    mainViewModel.rocketList
-    for (rocket in mainViewModel.rocketList.value) {
-        rocketNameList.add(rocket.name)
-    }
+    var selectedSuccessOption by remember { mutableStateOf(mainViewModel.selectedFlightSuccessOption.value) }
+    var selectOptions = mutableListOf<String>("Any", "Successful", "Failed")
 
     Box(
         modifier = Modifier
@@ -37,7 +32,7 @@ fun RocketDropdownMenuBox(mainViewModel: MainViewModel) {
             }
         ) {
             TextField(
-                value = selectedRocketName,
+                value = selectedSuccessOption,
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -48,13 +43,13 @@ fun RocketDropdownMenuBox(mainViewModel: MainViewModel) {
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                rocketNameList.forEach { name ->
+                selectOptions.forEach { option ->
                     DropdownMenuItem(
-                        text = { Text(text = name) },
+                        text = { Text(text = option) },
                         onClick = {
-                            selectedRocketName = name
+                            selectedSuccessOption = option
                             expanded = false
-                            mainViewModel.selectedFilterRocketName.value = selectedRocketName
+                            mainViewModel.selectedFlightSuccessOption.value = selectedSuccessOption
                         }
                     )
                 }

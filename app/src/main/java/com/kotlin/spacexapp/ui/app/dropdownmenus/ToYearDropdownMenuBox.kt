@@ -1,7 +1,6 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.dropdownmenus
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.*
@@ -9,11 +8,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 import java.util.*
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FromYearDropdownMenuBox(mainViewModel: MainViewModel) {
+fun ToYearDropdownMenuBox(mainViewModel: MainViewModel) {
     val context = LocalContext.current
     val years = mutableListOf<Int>()
 
@@ -24,7 +25,7 @@ fun FromYearDropdownMenuBox(mainViewModel: MainViewModel) {
         years.add(num)
     }
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(mainViewModel.selectedTextFrom.value) }
+    var selectedText by remember { mutableStateOf(mainViewModel.selectedTextTo.value) }
 
     Box(
         modifier = Modifier
@@ -55,7 +56,7 @@ fun FromYearDropdownMenuBox(mainViewModel: MainViewModel) {
                         onClick = {
                             selectedText = item.toString()
                             expanded = false
-                            mainViewModel.selectedTextFrom.value = selectedText
+                            mainViewModel.selectedTextTo.value = selectedText
 
                         }
                     )

@@ -1,4 +1,4 @@
-package com.kotlin.spacexapp
+package com.kotlin.spacexapp.ui.app.navigation
 
 sealed class Screen(val route: String) {
     object RocketsScreen : Screen("rockets_screen")

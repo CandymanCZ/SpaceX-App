@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.platform.LocalContext
-import com.kotlin.spacexapp.MainViewModel
+import com.kotlin.spacexapp.viewmodels.MainViewModel
 import com.kotlin.spacexapp.RocketCard
 
 @Composable
