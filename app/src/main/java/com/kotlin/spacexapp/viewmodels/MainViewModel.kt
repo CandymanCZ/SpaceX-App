@@ -13,14 +13,15 @@ import com.kotlin.spacexapp.api.GetCompanyInfoResponse
 import com.kotlin.spacexapp.mainfunctions.MainFunctions
 import com.kotlin.spacexapp.activities.PastLaunchDetailActivity
 import com.kotlin.spacexapp.activities.RocketDetailActivity
+import javax.inject.Inject
 
 
+class MainViewModel @Inject constructor(
+    private val mMainRepository: MainRepository,
+    val mainFunctions: MainFunctions
+): ViewModel() {
 
-class MainViewModel: ViewModel() {
-    companion object {
-        val mMainRepository: MainRepository = MainRepository()
-    }
-    val mainFunctions: MainFunctions = MainFunctions(mMainRepository)
+
 
     val rocketList = mutableStateOf(listOf<Rocket>())
     val companyInfo = mutableStateOf(GetCompanyInfoResponse())

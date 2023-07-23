@@ -30,12 +30,22 @@ import com.kotlin.spacexapp.ui.app.dropdownmenus.ToYearDropdownMenuBox
 import com.kotlin.spacexapp.ui.app.navigation.*
 import com.kotlin.spacexapp.ui.theme.SpaceXAppTheme
 import com.kotlin.spacexapp.viewmodels.MainViewModel
+import dagger.android.AndroidInjection
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+
+// 1 Add @Inject annotation to classes that you want to inject
+// 2 Add Modules for classes that cannot be constructor injected
+// 3 Create injectors for Activities / Fragments
+// 4 Create App Component
+// 5 Instantiate dagger inside application class
 class MainActivity : ComponentActivity() {
-    private val mainViewModel: MainViewModel by viewModels()
+    @Inject
+    lateinit var mainViewModel: MainViewModel
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         mainViewModel.startScreenProcedure(this)
         mainViewModel.fetchRockets(this)

@@ -5,8 +5,11 @@ import com.kotlin.spacexapp.repositories.MainRepository
 import com.kotlin.spacexapp.api.RetrofitClientInstance
 import com.kotlin.spacexapp.Rocket
 import com.squareup.moshi.Types
+import javax.inject.Inject
 
-class ConvertToJsonAndSave(private val mainRepository: MainRepository) {
+class ConvertToJsonAndSave @Inject constructor(
+    private val mainRepository: MainRepository
+    ) {
     operator fun invoke(context: Context, rocketList: List<Rocket>) {
 
         // Convert the whole rocket list into json before saving it into shared preferences

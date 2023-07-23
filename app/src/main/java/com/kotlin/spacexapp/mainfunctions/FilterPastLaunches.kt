@@ -4,8 +4,9 @@ import android.content.Context
 import android.widget.Toast
 import com.kotlin.spacexapp.PastLaunch
 import com.kotlin.spacexapp.Rocket
+import javax.inject.Inject
 
-class FilterPastLaunches {
+class FilterPastLaunches @Inject constructor() {
     operator fun invoke(
         from: String,
         to: String,

@@ -6,10 +6,13 @@ import com.kotlin.spacexapp.viewmodels.MainViewModel
 import com.kotlin.spacexapp.api.RetrofitClientInstance
 import com.kotlin.spacexapp.Rocket
 import com.squareup.moshi.Types
+import javax.inject.Inject
 
-class RetrieveAndParseJson(mainRepository: MainRepository) {
+class RetrieveAndParseJson @Inject constructor(
+    private val mainRepository: MainRepository
+    ) {
     operator fun invoke(context: Context) : List<Rocket>? {
-        val string: String = MainViewModel.mMainRepository.retrieveJson(context)
+        val string: String = mainRepository.retrieveJson(context)
         if (string != "empty") {
             return RetrofitClientInstance.moshi
                 .adapter<List<Rocket>>(
